@@ -1,11 +1,8 @@
 ---
-## defaults file for Falcon installation and configuration
-
 ## Credentials to connect to CrowdStrike Falcon cloud
 falcon_client_id: ""
 falcon_client_secret: ""
 
-# Falcon 
 # CrowdStrike API URL for downloading the Falcon sensor. 
 falcon_cloud: "api.eu-1.crowdstrike.com"
 
