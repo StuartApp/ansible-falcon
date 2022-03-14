@@ -1,0 +1,40 @@
+---
+##  Interacts with webservices to get Oauth token 
+- name: Authenticate to CrowdStrike API
+  ansible.builtin.uri:
+    url: "https://{{ falcon_cloud }}/oauth2/token"
+    method: POST
+    body_format: json
+    body:
+      "client_id={{ falcon_client_id }}&client_secret={{ falcon_client_secret }}"
+    return_content: true
+    follow_redirects: all
+    status_code: 201
+    headers:
+      content-type: application/x-www-form-urlencoded
+  register: falcon_api_oauth2_token
+
+- name: CrowdStrike Falcon | Verify Temporary Install Directory Exists (non-Windows)
+  ansible.builtin.tempfile:
+    path: "{{ falcon_install_tmp_dir }}"
+    state: directory
+    suffix: falcon
+  when:
+    - falcon_install_tmp_dir is defined
+  register: falcon_install_temp_directory
+  changed_when: no
+
+## Download de sensor package
+#  get_url – Downloads files from HTTP, HTTPS, or FTP to node
+- name: Download Falcon Sensor Installation Package
+  ansible.builtin.get_url:
+    url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?{{ falcon_instaler_id }}"
+    dest: "{{ falcon_install_temp_directory.path }}"
+    headers:
+      authorization: "Bearer {{ falcon_api_oauth2_token.json.access_token }}"
+  changed_when: false
+  register: falcon_sensor_download
+
+- name: CrowdStrike Falcon | Set full file download path
+  ansible.builtin.set_fact:
+    falcon_sensor_pkg: "{{ falcon_sensor_download.dest }}"

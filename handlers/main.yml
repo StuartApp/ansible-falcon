@@ -1,0 +1,7 @@
+---
+# handlers file for falcon
+
+- name: restart falcon
+  service:
+    name: falcon
+    state: restarted

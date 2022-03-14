@@ -1,0 +1,20 @@
+---
+## defaults file for Falcon installation and configuration
+
+## Credentials to connect to CrowdStrike Falcon cloud
+falcon_client_id: ""
+falcon_client_secret: ""
+
+# Falcon 
+# CrowdStrike API URL for downloading the Falcon sensor. 
+falcon_cloud: "api.eu-1.crowdstrike.com"
+
+# Installer ID: default version to be installed 
+falcon_instaler_id: "816f619e3ca536dd890926b0d619ea070771548d4ab3d2b66049809d2457dd1e"
+
+# Where should the sensor file be downloaded to on Linux 
+falcon_install_tmp_dir: "/tmp"
+
+ # Provisioning token created on Falco Cloud UI use in EC2 installations
+
+ falcon_provisioning_token: ""

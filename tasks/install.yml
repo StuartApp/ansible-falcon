@@ -1,0 +1,55 @@
+---
+## Install the package using a generic packer manager
+- name: Install Falcon Sensor Package (Linux)
+  ansible.builtin.package
+    name: {{ falcon_sensor_pkg }}
+    state: present
+
+ ## Configure Options
+
+- block:
+  - name: CrowdStrike Falcon | Configure Falcon Sensor Options (Linux)
+    crowdstrike.falcon.falconctl:
+      cid: "{{ falcon_cid if (falcon_cid != None) else omit }}"
+      provisioning_token: "{{ falcon_provisioning_token if (falcon_provisioning_token != None) else omit }}"
+      apd: "{{ falcon_apd if (falcon_apd != None) else omit }}"
+      aph: "{{ falcon_aph if (falcon_aph != None) else omit }}"
+      app: "{{ falcon_app if (falcon_app != None) else omit }}"
+      trace: "{{ falcon_trace if (falcon_trace != None) else omit }}"
+      feature: "{{ falcon_feature if (falcon_feature != None) else omit }}"
+      message_log: "{{ falcon_message_log if (falcon_message_log != None) else omit }}"
+      billing: "{{ falcon_billing if (falcon_billing != None) else omit }}"
+      tags: "{{ falcon_tags if (falcon_tags != None) else omit }}"
+      state: "{{ 'present' if falcon_option_set else 'absent' }}"
+    notify: CrowdStrike Falcon | Restart Falcon Sensor
+
+  # handlers file for falcon_configure
+  - name: CrowdStrike Falcon | Restart Falcon Sensor
+    ansible.builtin.service:
+      name: falcon-sensor
+      state: "{{ falcon_service_state | default('restarted') }}"
+      enabled: yes
+    when: info.falconctl_info.cid
+    become: yes
+
+
+- name: CrowdStrike Falcon | Gather tmp install directory objects
+  ansible.builtin.find:
+    paths: "{{ falcon_install_tmp_dir }}"
+    patterns: "ansible.*falcon"
+    file_type: directory
+  register: falcon_tmp_dir_objects
+  when: falcon_install_tmp_dir|length > 0
+  changed_when: no
+
+- name: CrowdStrike Falcon | Remove tmp install directories
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ falcon_tmp_dir_objects.files }}"
+  when:
+    - falcon_install_tmp_dir|length > 0
+    - falcon_tmp_dir_objects is defined and falcon_tmp_dir_objects.files|length > 0
+  changed_when: no
+
+    
