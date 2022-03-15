@@ -37,6 +37,12 @@
     dest: "{{ falcon_install_temp_directory.path }}"
     headers:
       authorization: "Bearer {{ falcon_api_oauth2_token.json.access_token }}"
-  register: falcon_sensor_pkg
+  register: falcon_sensor_download
   debugger: always
+  retries: "{{ falcon_retries }}"
+  delay: "{{ falcon_delay }}"
+  until: falcon_sensor_download is success
 
+- name: Set full file download path
+  ansible.builtin.set_fact:
+    falcon_sensor_pkg: "{{ falcon_sensor_download.dest }}"
