@@ -5,6 +5,24 @@
   include_vars: ../defaults/secrets.yml
   #no_log: True
 
+- name: CrowdStrike Falcon | Set default sensor name for non-Windows installations
+  ansible.builtin.set_fact:
+    falcon_sensor_pkg: "{{ installed_sensor }}"
+  when:
+    - ansible_pkg_mgr is defined
+    - ansible_pkg_mgr in linux_packagers
+    - falcon_sensor_download is not defined
+
+- name: CrowdStrike Falcon | Verify Temporary Install Directory Exists
+  ansible.builtin.tempfile:
+    path: "{{ falcon_install_tmp_dir }}"
+    state: directory
+    suffix: falcon
+  when:
+    - falcon_install_tmp_dir is defined
+  register: falcon_install_temp_directory
+  changed_when: no
+
 - name: Authenticate to CrowdStrike API
   ansible.builtin.uri:
     url: "https://{{ falcon_cloud }}/oauth2/token"
@@ -18,27 +36,14 @@
     headers:
       content-type: application/x-www-form-urlencoded
   register: falcon_api_oauth2_token
-
-- name: CrowdStrike Falcon | Verify Temporary Install Directory Exists
-  ansible.builtin.tempfile:
-    path: "{{ falcon_install_tmp_dir }}"
-    state: directory
-    suffix: falcon
-  when:
-    - falcon_install_tmp_dir is defined
-  register: falcon_install_temp_directory
-  changed_when: no
-
-## Download de sensor package
+  
+  ## Download de sensor package
 #  get_url – Downloads files from HTTP, HTTPS, or FTP to node
 - name: Download Falcon Sensor Installation Package
   ansible.builtin.get_url:
     url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?id={{ falcon_instaler_id }}"
     dest: "{{ falcon_install_temp_directory.path }}"
+    checksum: "sha256:3a21f0d70e1d0cba66e86a00266293d2c47a851a89298ca6cb513bd3fbd5e93c"
     headers:
       authorization: "Bearer {{ falcon_api_oauth2_token.json.access_token }}"
-    mode: 0755
-  register: falcon_sensor_pkg
-  retries: "{{ falcon_retries }}"
-  delay: "{{ falcon_delay }}"
-  until: falcon_sensor_pkg is success
+  register: falcon_sensor_download
