@@ -1,7 +1,7 @@
 ---
 ## Install the package using a generic packer manager
 - name: Install Falcon Sensor Package (Linux)
-  ansible.builtin.package
+  ansible.builtin.package:
     name: {{ falcon_sensor_pkg }}
     state: present
 
