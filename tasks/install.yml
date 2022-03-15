@@ -2,14 +2,14 @@
 ## Install the package using a generic packer manager
 - name: Install Falcon Sensor Package (Linux)
   ansible.builtin.package:
-    name: "{{ falcon_sensor_pkg.}}"
+    name: "{{ falcon_sensor_pk.}}"
     state: present
-    debugger: always
+    debugger: on_failed
 
 - name: Configure Falcon Sensor Options
   ansible.builtin.shell:
     cmd: "/opt/CrowdStrike/falconctl -s --cid={{ falcon_cid }} --provisioning-token={{ falcon_provisioning_token }}"
-    debugger: always
+    debugger: on_failed
   become: yes
   become_method: sudo
   notify: Restart Falcon Sensor
@@ -21,7 +21,7 @@
     state: "{{ falcon_service_state | default('restarted') }}"
     enabled: yes
   become: yes
-  debugger: always
+  debugger: on_failed
 
 
 - name: Gather tmp install directory objects
