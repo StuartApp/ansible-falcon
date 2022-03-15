@@ -4,6 +4,7 @@
   ansible.builtin.package:
     name: "{{ falcon_sensor_pkg }}"
     state: present
+  debugger: always
 
 - name: Configure Falcon Sensor Options
   ansible.builtin.shell:
@@ -11,6 +12,7 @@
   become: yes
   become_method: sudo
   notify: Restart Falcon Sensor
+  debugger: always
     
 
 # handlers file for falcon_configure
@@ -20,9 +22,10 @@
     state: "{{ falcon_service_state | default('restarted') }}"
     enabled: yes
   become: yes
+  debugger: always
 
 
-- name: CrowdStrike Falcon | Gather tmp install directory objects
+- name: Gather tmp install directory objects
   ansible.builtin.find:
     paths: "{{ falcon_install_tmp_dir }}"
     patterns: "ansible.*falcon"
@@ -31,7 +34,7 @@
   when: falcon_install_tmp_dir|length > 0
   changed_when: no
 
-- name: CrowdStrike Falcon | Remove tmp install directories
+- name: Remove tmp install directories
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
