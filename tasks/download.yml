@@ -47,3 +47,7 @@
     headers:
       authorization: "Bearer {{ falcon_api_oauth2_token.json.access_token }}"
   register: falcon_sensor_download
+
+- name: Set full file download path
+  ansible.builtin.set_fact:
+    falcon_sensor_pkg: "{{ falcon_sensor_download.dest }}"

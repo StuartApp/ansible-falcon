@@ -4,7 +4,6 @@
   become: true
   ansible.builtin.package:
     name: "{{ falcon_sensor_pkg }}"
-    use: dpkg
     state: present
     debugger: on_failed
 
