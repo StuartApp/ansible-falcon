@@ -2,10 +2,10 @@
 ## Install the package using a generic packer manager
 - name: Install Falcon Sensor Package (Linux)
   ansible.builtin.package:
-    name: {{ falcon_sensor_pkg }}
+    name: "{{ falcon_sensor_pkg }}"
     state: present
 
- ## Configure Options
+## Configure Options
 
 - block:
   - name: CrowdStrike Falcon | Configure Falcon Sensor Options (Linux)
