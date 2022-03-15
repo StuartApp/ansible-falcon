@@ -1,6 +1,10 @@
 ---
 ##  Interacts with webservices to get Oauth token 
 
+- name: Include secrets
+  include_vars: ../defaults/secrets.yml
+  #no_log: True
+
 - name: Authenticate to CrowdStrike API
   ansible.builtin.uri:
     url: "https://{{ falcon_cloud }}/oauth2/token"
@@ -15,7 +19,7 @@
       content-type: application/x-www-form-urlencoded
   register: falcon_api_oauth2_token
 
-- name: CrowdStrike Falcon | Verify Temporary Install Directory Exists (non-Windows)
+- name: CrowdStrike Falcon | Verify Temporary Install Directory Exists
   ansible.builtin.tempfile:
     path: "{{ falcon_install_tmp_dir }}"
     state: directory
