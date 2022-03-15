@@ -1,5 +1,10 @@
 ---
 ##  Interacts with webservices to get Oauth token 
+
+- name: include secrets
+  include_vars: secrets.yml
+  no_log: True
+
 - name: Authenticate to CrowdStrike API
   ansible.builtin.uri:
     url: "https://{{ falcon_cloud }}/oauth2/token"
