@@ -33,7 +33,7 @@
 #  get_url – Downloads files from HTTP, HTTPS, or FTP to node
 - name: Download Falcon Sensor Installation Package
   ansible.builtin.get_url:
-    url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?{{ falcon_instaler_id }}"
+    url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?id={{ falcon_instaler_id }}"
     dest: "{{ falcon_install_temp_directory.path }}"
     headers:
       authorization: "Bearer {{ falcon_api_oauth2_token.json.access_token }}"
