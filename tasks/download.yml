@@ -42,4 +42,4 @@
 
 - name: CrowdStrike Falcon | Set full file download path
   ansible.builtin.set_fact:
-    falcon_sensor_pkg: "{{ falcon_sensor_download.dest | falcon_sensor_download.path) }}"
+    falcon_sensor_pkg: "{{ falcon_sensor_download.dest | falcon_sensor_download.path}}"
