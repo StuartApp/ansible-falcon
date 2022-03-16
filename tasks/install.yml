@@ -14,14 +14,6 @@
   ignore_errors: yes
   notify: Restart Falcon Sensor
 
-# handlers file for falcon_configure
-- name: Restart Falcon Sensor
-  service:
-    name: falcon-sensor
-    state: "{{ falcon_service_state | default('restarted') }}"
-    enabled: yes
-  become: yes
-
 - name: Gather tmp install directory objects
   find:
     paths: "{{ falcon_install_tmp_dir }}"

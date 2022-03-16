@@ -1,38 +1,60 @@
 Role Name
 =========
+The purpose of this role is to download and configure the Falcon to install it on our EC2 instances. The sensor must be downloaded from Crowdstrike Cloud using MFA. 
 
-A brief description of the role goes here.
+In the first step, we will connect to the mentionced cloud environment to obtain a `Bearer token` which will be used to download the `pkg`. The distribution used is compatible with Ubuntu 16/18 and 20.
+
+After downloading and installing the `pkg` - the `falcon-sensor` must be configured. According to the official documentation both the Customer ID (CID) and `provisioning-token` must be provided.
+
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Ansible 2.8 
 
-Role Variables
+Role Variables and Secrets
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Supported variables:
+
+* `falcon_cloud` - CrowdStrike API URL for downloading the Falcon sensor.
+* `falcon_instaler_id` - Installer ID: default version to be installed
+* `falcon_install_tmp_dir` - Where should the sensor file be downloaded to on Linux
+
+Suported secrets:
+
+This information can be found on under Falcon UI and won't be changed in the near future:
+
+* `falcon_client_id` - CrowdStrike OAUTH Client ID
+* `falcon_client_secret` - CrowdStrike OAUTH Client Secret
+* `falcon_cid` - CrowdStrike Customer ID
+* `falcon_provisioning_token` - Falcon Installation Token
 
 Dependencies
 ------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No dependencies
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Include the role in `requirements.yml` as follows to test the changes depending on the branch (master of the one to be tested)
 
-    - hosts: servers
+```yaml
+- src: https://github.com/StuartApp/ansible-falcon.git
+  name: stuart.falcon
+  version: < branch name >
+```
+
+After adding the role to the requirements and installing we can proceed to call it from a playbook:
+
+```yaml
+    - name: myplaybook
+      hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
+        - {role: stuart.falcon, tags: role-falcon}
+```
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role was created while working for Stuart Delivery.

@@ -1,15 +1,5 @@
 ---
-# CrowdStrike API URL for downloading the Falcon sensor. 
+
 falcon_cloud: "api.eu-1.crowdstrike.com"
-
-# Installer ID: default version to be installed 
 falcon_instaler_id: "816f619e3ca536dd890926b0d619ea070771548d4ab3d2b66049809d2457dd1e"
-
-# Where should the sensor file be downloaded to on Linux 
 falcon_install_tmp_dir: "/tmp"
-
-# The number of retries the installer should attempt.
-falcon_retries: 3
-
-# The time (in seconds) the installer should wait between retries.
-falcon_delay: 3

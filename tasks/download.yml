@@ -31,7 +31,7 @@
   no_log: True
 
  ## Download de sensor package
-#  get_url – Downloads files from HTTP, HTTPS, or FTP to node
+ 
 - name: Download Falcon Sensor Installation Package
   get_url:
     url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?id={{ falcon_instaler_id }}"
