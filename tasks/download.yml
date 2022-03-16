@@ -1,9 +1,8 @@
 ---
-##  Interacts with webservices to get Oauth token 
-
+##  Interacts with webservices to get Oauth token
 - name: Include secrets
   include_vars: ../defaults/secrets.yml
-  no_log: True
+  no_log: true
 
 - name: Verify Temporary Install Directory Exists
   tempfile:
@@ -13,7 +12,7 @@
   when:
     - falcon_install_tmp_dir is defined
   register: falcon_install_temp_directory
-  changed_when: no
+  changed_when: false
 
 - name: Authenticate to CrowdStrike API
   uri:
@@ -28,9 +27,7 @@
     headers:
       content-type: application/x-www-form-urlencoded
   register: falcon_api_oauth2_token
-  no_log: True
-
- ## Download the sensor package
+  no_log: true
 
 - name: Download Falcon Sensor Installation Package
   get_url:

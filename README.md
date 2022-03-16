@@ -10,7 +10,7 @@ After downloading and installing the `pkg` - the `falcon-sensor` must be configu
 Requirements
 ------------
 
-Ansible 2.8 
+![Ansible](https://img.shields.io/badge/ansible-2.8.2-green)
 
 Role Variables and Secrets
 --------------
@@ -21,7 +21,7 @@ Supported variables:
 * `falcon_instaler_id` - Installer ID: default version to be installed
 * `falcon_install_tmp_dir` - Where should the sensor file be downloaded to on Linux
 
-Suported secrets:
+Supported secrets:
 
 This information can be found on under Falcon UI and won't be changed in the near future:
 

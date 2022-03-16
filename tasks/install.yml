@@ -1,5 +1,4 @@
 ---
-
 ## Install the package using a generic packer manager
 - name: Install Falcon Sensor Package (Linux)
   become: true
@@ -8,10 +7,9 @@
     state: present
 
 - name: Configure Falcon Sensor Options
-  shell:
-    cmd: "/opt/CrowdStrike/falconctl -s --cid={{ falcon_cid }} --provisioning-token={{ falcon_provisioning_token }}"
-  become: yes
-  ignore_errors: yes
+  command:  "/opt/CrowdStrike/falconctl -s --cid={{ falcon_cid }} --provisioning-token={{ falcon_provisioning_token }}"
+  become: true
+  changed_when: false
   notify: Restart Falcon Sensor
 
 - name: Gather tmp install directory objects
@@ -21,7 +19,7 @@
     file_type: directory
   register: falcon_tmp_dir_objects
   when: falcon_install_tmp_dir|length > 0
-  changed_when: no
+  changed_when: false
 
 - name: Remove tmp install directories
   file:
@@ -31,4 +29,4 @@
   when:
     - falcon_install_tmp_dir|length > 0
     - falcon_tmp_dir_objects is defined and falcon_tmp_dir_objects.files|length > 0
-  changed_when: no
+  changed_when: false
