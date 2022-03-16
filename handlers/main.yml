@@ -3,6 +3,6 @@
 
 - name: Restart Falcon Sensor
   service:
-    name: falcon-service
+    name: falcon-sensor
     state: restarted
   become: yes
