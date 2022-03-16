@@ -3,7 +3,7 @@
 
 - name: Include secrets
   include_vars: ../defaults/secrets.yml
-  #no_log: True
+  no_log: True
 
 - name: CrowdStrike Falcon | Verify Temporary Install Directory Exists
   ansible.builtin.tempfile:
@@ -28,6 +28,7 @@
     headers:
       content-type: application/x-www-form-urlencoded
   register: falcon_api_oauth2_token
+  no_log: True
   
   ## Download de sensor package
 #  get_url – Downloads files from HTTP, HTTPS, or FTP to node
@@ -35,11 +36,11 @@
   ansible.builtin.get_url:
     url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?id={{ falcon_instaler_id }}"
     dest: "{{ falcon_install_temp_directory.path }}"
-    checksum: "sha256:3a21f0d70e1d0cba66e86a00266293d2c47a851a89298ca6cb513bd3fbd5e93c"
     headers:
       authorization: "Bearer {{ falcon_api_oauth2_token.json.access_token }}"
   changed_when: false
   register: falcon_sensor_download
+  no_log: True
 
 - name: Set full file download path
   ansible.builtin.set_fact:
