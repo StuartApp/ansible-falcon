@@ -3,12 +3,12 @@
 ## Install the package using a generic packer manager
 - name: Install Falcon Sensor Package (Linux)
   become: true
-  ansible.builtin.package:
+  package:
     deb: "{{ falcon_sensor_pkg }}"
     state: present
 
 - name: Configure Falcon Sensor Options
-  ansible.builtin.shell:
+  shell:
     cmd: "/opt/CrowdStrike/falconctl -s --cid={{ falcon_cid }} --provisioning-token={{ falcon_provisioning_token }}"
   become: yes
   ignore_errors: yes
@@ -16,14 +16,14 @@
 
 # handlers file for falcon_configure
 - name: Restart Falcon Sensor
-  ansible.builtin.service:
+  service:
     name: falcon-sensor
     state: "{{ falcon_service_state | default('restarted') }}"
     enabled: yes
   become: yes
 
 - name: Gather tmp install directory objects
-  ansible.builtin.find:
+  find:
     paths: "{{ falcon_install_tmp_dir }}"
     patterns: "ansible.*falcon"
     file_type: directory
@@ -32,7 +32,7 @@
   changed_when: no
 
 - name: Remove tmp install directories
-  ansible.builtin.file:
+  file:
     path: "{{ item.path }}"
     state: absent
   loop: "{{ falcon_tmp_dir_objects.files }}"
