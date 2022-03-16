@@ -29,8 +29,8 @@
       content-type: application/x-www-form-urlencoded
   register: falcon_api_oauth2_token
   no_log: True
-  
-  ## Download de sensor package
+
+ ## Download de sensor package
 #  get_url – Downloads files from HTTP, HTTPS, or FTP to node
 - name: Download Falcon Sensor Installation Package
   ansible.builtin.get_url:

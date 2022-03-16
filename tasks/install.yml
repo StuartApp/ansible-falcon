@@ -14,6 +14,7 @@
   ignore_errors: yes
   notify: Restart Falcon Sensor
 
+# handlers file for falcon_configure
 - name: Restart Falcon Sensor
   ansible.builtin.service:
     name: falcon-sensor
@@ -39,5 +40,3 @@
     - falcon_install_tmp_dir|length > 0
     - falcon_tmp_dir_objects is defined and falcon_tmp_dir_objects.files|length > 0
   changed_when: no
-
-    
