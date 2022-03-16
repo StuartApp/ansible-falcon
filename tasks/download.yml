@@ -5,7 +5,7 @@
   include_vars: ../defaults/secrets.yml
   no_log: True
 
-- name: CrowdStrike Falcon | Verify Temporary Install Directory Exists
+- name: Verify Temporary Install Directory Exists
   tempfile:
     path: "{{ falcon_install_tmp_dir }}"
     state: directory
@@ -30,8 +30,8 @@
   register: falcon_api_oauth2_token
   no_log: True
 
- ## Download de sensor package
- 
+ ## Download the sensor package
+
 - name: Download Falcon Sensor Installation Package
   get_url:
     url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?id={{ falcon_instaler_id }}"
