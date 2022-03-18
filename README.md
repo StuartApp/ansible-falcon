@@ -1,6 +1,6 @@
 Role Name
 =========
-The purpose of this role is to download and configure the Falcon to install it on our EC2 instances. The sensor must be downloaded from Crowdstrike Cloud using MFA. 
+The purpose of this role is to download, install and configure CrowdStrike Falcon sensor it on our EC2 instances. The sensor must be downloaded from Crowdstrike Cloud using MFA. 
 
 In the first step, we will connect to the mentionced cloud environment to obtain a `Bearer token` which will be used to download the `pkg`. The distribution used is compatible with Ubuntu 16/18 and 20.
 
@@ -27,7 +27,7 @@ This information can be found on under Falcon UI and won't be changed in the nea
 
 * `falcon_client_id` - CrowdStrike OAUTH Client ID
 * `falcon_client_secret` - CrowdStrike OAUTH Client Secret
-* `falcon_cid` - CrowdStrike Customer ID
+* `falcon_customer_id` - CrowdStrike Customer ID
 * `falcon_provisioning_token` - Falcon Installation Token
 
 Dependencies
