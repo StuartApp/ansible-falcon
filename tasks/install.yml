@@ -1,0 +1,33 @@
+---
+## Install the package using a generic packer manager
+- name: Install Falcon Sensor Package (Linux)
+  become: true
+  package:
+    deb: "{{ falcon_sensor_pkg }}"
+    state: present
+
+- name: Configure Falcon Sensor Options
+  command:  "/opt/CrowdStrike/falconctl -s --cid={{ falcon_customer_id }} --provisioning-token={{ falcon_provisioning_token }}"
+  become: true
+  changed_when: false
+  ignore_errors: true
+  notify: Restart Falcon Sensor
+
+- name: Gather tmp install directory objects
+  find:
+    paths: "{{ falcon_install_tmp_dir }}"
+    patterns: "ansible.*falcon"
+    file_type: directory
+  register: falcon_tmp_dir_objects
+  when: falcon_install_tmp_dir|length > 0
+  changed_when: false
+
+- name: Remove tmp install directories
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ falcon_tmp_dir_objects.files }}"
+  when:
+    - falcon_install_tmp_dir|length > 0
+    - falcon_tmp_dir_objects is defined and falcon_tmp_dir_objects.files|length > 0
+  changed_when: false

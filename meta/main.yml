@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Angela F. Vilches
+  description: Downloads and install the CrowdStrike Falcon Sensor
+  company: Stuart Delivery S.L.
+  role_name: falcon
+  license: GPL-3.0-only
+  min_ansible_version: 2.8
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+
+  galaxy_tags:
+    - monitoring
+    - falcon
+    - crowdstrike
+    - aws
+
+dependencies: []

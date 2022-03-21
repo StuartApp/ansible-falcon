@@ -1,0 +1,5 @@
+---
+
+falcon_cloud: "api.eu-1.crowdstrike.com"
+falcon_instaler_id: "816f619e3ca536dd890926b0d619ea070771548d4ab3d2b66049809d2457dd1e"
+falcon_install_tmp_dir: "/tmp"
