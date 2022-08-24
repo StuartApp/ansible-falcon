@@ -19,8 +19,7 @@
     url: "https://{{ falcon_cloud }}/oauth2/token"
     method: POST
     body_format: json
-    body:
-      "client_id={{ falcon_client_id }}&client_secret={{ falcon_client_secret }}"
+    body: "client_id={{ falcon_client_id }}&client_secret={{ falcon_client_secret }}"
     return_content: true
     follow_redirects: all
     status_code: 201
@@ -31,7 +30,7 @@
 
 - name: Download Falcon Sensor Installation Package
   get_url:
-    url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?id={{ falcon_instaler_id }}"
+    url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?id={{ falcon_installer_id }}"
     dest: "{{ falcon_install_temp_directory.path }}"
     headers:
       authorization: "Bearer {{ falcon_api_oauth2_token.json.access_token }}"
