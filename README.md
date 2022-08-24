@@ -18,7 +18,7 @@ Role Variables and Secrets
 Supported variables:
 
 * `falcon_cloud` - CrowdStrike API URL for downloading the Falcon sensor.
-* `falcon_instaler_id` - Installer ID: default version to be installed
+* `falcon_installer_id` - Installer ID: default version to be installed
 * `falcon_install_tmp_dir` - Where should the sensor file be downloaded to on Linux
 
 Supported secrets:
