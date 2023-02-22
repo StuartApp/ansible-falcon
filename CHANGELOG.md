@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.3](https://github.com/StuartApp/ansible-falcon/releases/tag/1.0.3) (Feb 22, 2023)
+
+- Download latest binary before installing.
+
 ## [v1.0.2](https://github.com/StuartApp/ansible-falcon/releases/tag/1.0.2) (Aug 24, 2022)
 
 - Add changelog and codeowners, fix a typo.
