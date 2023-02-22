@@ -1,4 +1,9 @@
 ---
 falcon_cloud: "api.eu-1.crowdstrike.com"
-falcon_installer_id: "816f619e3ca536dd890926b0d619ea070771548d4ab3d2b66049809d2457dd1e"
 falcon_install_tmp_dir: "/tmp"
+falcon_os_arch_dict:
+  # exclude arm64 and s390x
+  x86_64: '"+os_version:!~"arm64"+os_version:!~"zLinux"'
+  aarch64: '"+os_version:~"arm64"'
+  s390x: '"+os_version:~"zLinux"'
+falcon_sensor_version_decrement: 0 # latest
