@@ -36,14 +36,14 @@
     falcon_sensor_update_policy_platform: "{{ ansible_facts['system'] }}"
     falcon_os_vendor: "{{ ansible_facts['os_family'] | lower if (ansible_facts['os_family'] == 'RedHat' and ansible_facts['distribution'] != 'Amazon') else ansible_facts['distribution'] | lower }}"
 
+- name: "Determine Operating System Architecture (Linux)"
+  set_fact:
+    falcon_os_arch: "{{ falcon_os_arch_dict[ansible_facts['architecture']] }}"
+  when: ansible_facts['system'] == "Linux"
+
 - name: "Build API Sensor Query"
   set_fact:
-    falcon_os_query:
-      '{{ ''os:"'' + falcon_target_os + ''"+os_version:"'' + falcon_os_version + falcon_os_arch + ''+version:"'' + falcon_sensor_version + ''"''
-      if (falcon_sensor_version) else ''os:"'' + falcon_target_os + ''"+os_version:"'' + falcon_os_version + falcon_os_arch }}'
-
-- debug:
-    msg: falcon_target_os {{ falcon_target_os }}, falcon_os_query {{ falcon_os_query }}
+    falcon_os_query: '{{ ''os:"'' + falcon_target_os + ''"+os_version:"'' + falcon_os_version + falcon_os_arch }}'
 
 - name: Get list of filtered Falcon sensors
   uri:
@@ -56,7 +56,7 @@
   register: falcon_api_installer_list
   no_log: true
 
-- name: CrowdStrike Falcon | Download Falcon Sensor Installation Package
+- name: Download Falcon Sensor Installation Package
   get_url:
     url: "https://{{ falcon_cloud }}/sensors/entities/download-installer/v1?id={{ falcon_api_installer_list.json.resources[falcon_sensor_version_decrement | int].sha256 }}"
     dest: "{{ falcon_install_temp_directory.path }}"
@@ -66,7 +66,6 @@
       authorization: "Bearer {{ falcon_api_oauth2_token.json.access_token }}"
   changed_when: false
   register: falcon_sensor_download
-  no_log: true
 
 - name: Set full file download path
   set_fact:
