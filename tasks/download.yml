@@ -42,7 +42,7 @@
       '{{ ''os:"'' + falcon_target_os + ''"+os_version:"'' + falcon_os_version + falcon_os_arch + ''+version:"'' + falcon_sensor_version + ''"''
       if (falcon_sensor_version) else ''os:"'' + falcon_target_os + ''"+os_version:"'' + falcon_os_version + falcon_os_arch }}'
 
-  ansible.builtin.debug:
+- debug:
     msg: falcon_target_os {{ falcon_target_os }}, falcon_os_query {{ falcon_os_query }}
 
 - name: Get list of filtered Falcon sensors
